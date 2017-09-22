@@ -20,8 +20,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         // 本来なら、Android6.0以上かそうでないかで実装を分ける必要がある
 
         if (ActivityCompat.checkSelfPermission(getApplication(), Manifest.permission.ACCESS_FINE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplication(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-        {
+                PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplication(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             /** fine location のリクエストコード（値は他のパーミッションと被らなければ、なんでも良い）*/
             final int requestCode = 1;
             // いずれも得られていない場合はパーミッションのリクエストを要求する
@@ -29,8 +28,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, requestCode);
             return;
         }
-
-        // 位置情報を管理している LocationManager のインスタンスを生成する
+// 位置情報を管理している LocationManager のインスタンスを生成する
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         String locationProvider = null;
 
@@ -57,7 +55,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 // 利用可能なロケーションプロバイダによる位置情報の取得の開始
 // FIXME 本来であれば、リスナが複数回登録されないようにチェックする必要がある
         locationManager.requestLocationUpdates(locationProvider, minTime, minDistance, this);
-
 // 最新の位置情報
         Location location = locationManager.getLastKnownLocation(locationProvider);
 
@@ -66,36 +63,28 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
             textView.setText(String.valueOf("onCreate() : " + location.getLatitude()) + "," + String.valueOf(location.getLongitude()));
         }
-
     }
 
     //位置情報が通知されるたびにコールバックされるメソッド
-
     @Override
-
-
     public void onLocationChanged(Location location) {
         TextView textView = (TextView) findViewById(R.id.lo);
-
         textView.setText(String.valueOf("onLocationChanged() : " + location.getLatitude()) + ":" + String.valueOf(location.getLongitude()));
     }
 
-//ロケーションプロバイダが利用不可能になるとコールバックされるメソッド
-
+    //ロケーションプロバイダが利用不可能になるとコールバックされるメソッド
     @Override
     public void onProviderDisabled(String provider) {
 //ロケーションプロバイダーが使われなくなったらリムーブする必要がある
     }
 
     //ロケーションプロバイダが利用可能になるとコールバックされるメソッド
-
     @Override
     public void onProviderEnabled(String provider) {
 //プロバイダが利用可能になったら呼ばれる
     }
 
-//ロケーションステータスが変わるとコールバックされるメソッド
-
+    //ロケーションステータスが変わるとコールバックされるメソッド
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
 // 利用可能なプロバイダの利用状態が変化したときに呼ばれる

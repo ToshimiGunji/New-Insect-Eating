@@ -27,6 +27,10 @@ public class RestaurantListAdapter extends BaseAdapter {
         this.restaurants = restaurants;
     }
 
+    public Restaurant getRestaurant(int pos) {
+        return restaurants.get(pos);
+    }
+
     @Override
     public int getCount() {
         return restaurants.size();

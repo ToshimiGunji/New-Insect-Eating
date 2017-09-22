@@ -14,6 +14,7 @@ import com.google.gson.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.widget.AdapterView;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -25,6 +26,7 @@ import android.widget.TextView;
 
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import com.example.b1016121.newinsecteating.model.Restaurant;
 
 import retrofit2.Retrofit;
 import android.util.Log;
@@ -91,6 +93,18 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         RestaurantListAdapter listAdapter = new RestaurantListAdapter(getApplicationContext());
         listView.setAdapter(listAdapter);
 
+        // リストタップ時の処理（遷移）
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Restaurant res = listAdapter.getRestaurant(position);
+                Intent intent = RestaurantActivity.intent(getApplicationContext(),res);
+                startActivity(intent);
+            }}
+
+        );
+
+        // API周りの処理
         GsonBuilder gb = new GsonBuilder();
         Gson gson = gb.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
 
@@ -106,13 +120,14 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         queryMap.put("lat","34.6937378");
         queryMap.put("lng","135.50216509999998");
 
+        // RxJava
         restaurantClient.search(queryMap)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doAfterTerminate(() -> {
                     progressBar.setVisibility(View.GONE);
                 }).subscribe(res -> {
-                    listAdapter.setRestaurants(res); // itはArticleのリスト？
+                    listAdapter.setRestaurants(res);
                     listAdapter.notifyDataSetChanged();
                 }, res -> {
                     Log.v("api error",res.toString());

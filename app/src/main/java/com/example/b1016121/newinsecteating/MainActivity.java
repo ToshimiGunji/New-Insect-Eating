@@ -117,8 +117,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         RestaurantClient restaurantClient = retrofit.create(RestaurantClient.class);
 
         Map<String,String> queryMap = new HashMap<String,String>();
-        queryMap.put("lat","34.6937378");
-        queryMap.put("lng","135.50216509999998");
+        queryMap.put("lat","41.790648");
+        queryMap.put("lng","140.751419");
 
         // RxJava
         restaurantClient.search(queryMap)

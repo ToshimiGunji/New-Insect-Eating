@@ -14,6 +14,7 @@ public class Restaurant implements Parcelable {
     private String name;
     private String description;
     private String address;
+    private String image;
 
     @Override
     public int describeContents() {
@@ -38,18 +39,21 @@ public class Restaurant implements Parcelable {
         out.writeString(name);
         out.writeString(description);
         out.writeString(address);
+        out.writeString(image);
     }
 
-    public Restaurant(String name,String description, String address){
+    public Restaurant(String name,String description, String address, String url){
         this.name = name;
         this.description = description;
         this.address = address;
+        this.image = url;
     }
 
     private Restaurant(Parcel in){
         name = in.readString();
         description = in.readString();
         address = in.readString();
+        image = in.readString();
     }
 
     public void setName(String name) {
@@ -75,5 +79,7 @@ public class Restaurant implements Parcelable {
     public String getAddress() {
         return this.address;
     }
+
+    public String getUrl() { return this.image; }
 
 }

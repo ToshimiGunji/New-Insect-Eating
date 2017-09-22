@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.util.Log;
 import com.bumptech.glide.Glide;
 
+import com.bumptech.glide.RequestManager;
 import com.example.b1016121.newinsecteating.R;
 import com.example.b1016121.newinsecteating.model.Restaurant;
 
@@ -30,6 +31,8 @@ public class RestaurantView extends FrameLayout {
         View view = inflater.inflate(R.layout.view_restaurant, this);
         this.nameTextView = (TextView)findViewById(R.id.name_text_view);
         this.addressTextView = (TextView)findViewById(R.id.address_text_view);
+        this.restaurantImageView = (ImageView)findViewById(R.id.image_view);
+        this.reqMan = Glide.with(context);
 
     }
     public RestaurantView(Context context, AttributeSet attr){
@@ -38,6 +41,8 @@ public class RestaurantView extends FrameLayout {
         View view = inflater.inflate(R.layout.view_restaurant, this);
         this.nameTextView = (TextView)findViewById(R.id.name_text_view);
         this.addressTextView = (TextView)findViewById(R.id.address_text_view);
+        this.restaurantImageView = (ImageView)findViewById(R.id.image_view);
+        this.reqMan = Glide.with(context);
     }
     public RestaurantView(Context context, AttributeSet attr,int defStyleAttr) {
         super(context, attr, defStyleAttr);
@@ -45,6 +50,8 @@ public class RestaurantView extends FrameLayout {
         View view = inflater.inflate(R.layout.view_restaurant, this);
         this.nameTextView = (TextView)findViewById(R.id.name_text_view);
         this.addressTextView = (TextView)findViewById(R.id.address_text_view);
+        this.restaurantImageView = (ImageView)findViewById(R.id.image_view);
+        this.reqMan = Glide.with(context);
     }
 
 
@@ -53,14 +60,16 @@ public class RestaurantView extends FrameLayout {
     //private TextView nameTextView = (TextView)findViewById(R.id.name_text_view);
     //private TextView addressTextView = (TextView)findViewById(R.id.address_text_view);
 
+    private RequestManager reqMan = null;
     private TextView nameTextView = null;
     private TextView addressTextView = null;
+    private ImageView restaurantImageView = null;
 
     public void setRestaurant(Restaurant restaurant) {
         Log.v("API Log: ",restaurant.getName());
         nameTextView.setText(restaurant.getName());
         addressTextView.setText(restaurant.getAddress());
-
+        reqMan.load(restaurant.getUrl()).into(restaurantImageView);
     }
 
 }

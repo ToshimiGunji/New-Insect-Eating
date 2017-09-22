@@ -7,6 +7,7 @@
     tools:context="com.example.b1016121.newinsecteating.MainActivity">
 
     <TextView
+        android:id="@+id/lo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hello World!"

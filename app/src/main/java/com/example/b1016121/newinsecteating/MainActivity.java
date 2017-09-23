@@ -25,6 +25,8 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import android.widget.TextView;
 
 import android.widget.ListView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import com.example.b1016121.newinsecteating.model.Restaurant;
 
@@ -87,6 +89,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
         //-----------------------------------------------------------------------------------
         ListView listView = (ListView)findViewById(R.id.list_view);
+        Button searchButton = (Button)findViewById(R.id.search_button);
+        EditText queryEditText = (EditText)findViewById(R.id.query_edit_text);
         ProgressBar progressBar = (ProgressBar)findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.VISIBLE);
 
@@ -120,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         queryMap.put("lat","41.790648");
         queryMap.put("lng","140.751419");
 
-        // RxJava
+        // アプリ起動時のWebAPI操作
         restaurantClient.search(queryMap)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -133,6 +137,24 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                     Log.v("api error",res.toString());
                 });
 
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progressBar.setVisibility(View.VISIBLE);
+                restaurantClient.searchQue(queryEditText.getText().toString())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doAfterTerminate(() -> {
+                            progressBar.setVisibility(View.GONE);
+                        }).subscribe(res -> {
+                    listAdapter.setRestaurants(res);
+                    listAdapter.notifyDataSetChanged();
+                }, res -> {
+                    Log.v("api error",res.toString());
+                });
+
+            }
+        });
 
     }
 
